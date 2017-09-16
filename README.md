@@ -5,4 +5,19 @@ This program createa a webpage with the box art, title, plot, and trailer of Dou
 
 ## Instructions
 
-1.  Download the code from 
+1.  Download the code from https://github.com/heisenfraud/movie_trailer_website
+2.  Unzip the files to your computer to the desired folder.  
+3.  Open entertainment_center.py to view the website and create an HTML file.
+4.  Used the created HTML file to open the website after the first time.
+
+## Contributions
+
+fresh_tomatoes.py from udacity/ud036_StarterCode
+
+## Author
+
+Doug Mello
+
+## Version
+1.0
+
