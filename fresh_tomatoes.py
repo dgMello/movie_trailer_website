@@ -2,11 +2,8 @@ import webbrowser
 import os
 import re
 
-
-# Styles and scripting for the page
+# This contains the main CSS that that styles the HTML code below.
 main_page_head = '''
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Fresh Tomatoes!</title>
@@ -19,6 +16,9 @@ main_page_head = '''
     <style type="text/css" media="screen">
         body {
             padding-top: 80px;
+        }
+        .navbar-brand {
+            font-size: 25px;
         }
         #trailer .modal-dialog {
             margin-top: 200px;
@@ -39,9 +39,22 @@ main_page_head = '''
             margin-bottom: 20px;
             padding-top: 20px;
         }
+        .movie-storyline {
+            background-color: black;
+            font-size: 16px;
+            opacity: 0;
+            font-weight: bold;
+        }
+
         .movie-tile:hover {
             background-color: #EEE;
             cursor: pointer;
+            opacity: 1;
+        }
+        .movie-tile:hover .movie-storyline  {
+            background-color: #EEE;
+            cursor: pointer;
+            opacity: 1;
         }
         .scale-media {
             padding-bottom: 56.25%;
@@ -67,7 +80,8 @@ main_page_head = '''
         // Start playing the video whenever the trailer modal is opened
         $(document).on('click', '.movie-tile', function (event) {
             var trailerYouTubeId = $(this).attr('data-trailer-youtube-id')
-            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1';
+            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId +
+            '?autoplay=1&html5=1';
             $("#trailer-video-container").empty().append($("<iframe></iframe>", {
               'id': 'trailer-video',
               'type': 'text-html',
@@ -85,9 +99,10 @@ main_page_head = '''
 </head>
 '''
 
-
-# The main page layout and title bar
+# This contains the main HTML that is displayed in the HTML document
 main_page_content = '''
+<!DOCTYPE html>
+<html lang="en">
   <body>
     <!-- Trailer Video Modal -->
     <div class="modal" id="trailer">
@@ -119,49 +134,53 @@ main_page_content = '''
 </html>
 '''
 
-
 # A single movie entry html template
 movie_tile_content = '''
 <div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
     <img src="{poster_image_url}" width="220" height="342">
     <h2>{movie_title}</h2>
+    <p>Directed by {movie_director}</p>
+    <div class="movie-storyline">
+        <p>{movie_storyline}</p>
+    </div>
 </div>
 '''
 
 
 def create_movie_tiles_content(movies):
-    # The HTML content for this section of the page
+    # This method takes the movies list as a input from the
+    # entertainment_center.py and creates html code as the output.
     content = ''
     for movie in movies:
         # Extract the youtube ID from the url
-        youtube_id_match = re.search(
-            r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
-        youtube_id_match = youtube_id_match or re.search(
-            r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
-        trailer_youtube_id = (youtube_id_match.group(0) if youtube_id_match
-                              else None)
+        youtube_id_match = re.search(r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
+        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
+        trailer_youtube_id = youtube_id_match.group(0) if youtube_id_match else None
 
         # Append the tile for the movie with its content filled in
         content += movie_tile_content.format(
             movie_title=movie.title,
             poster_image_url=movie.poster_image_url,
-            trailer_youtube_id=trailer_youtube_id
+            trailer_youtube_id=trailer_youtube_id,
+            movie_storyline=movie.storyline,
+            movie_director=movie.director
         )
     return content
 
 
 def open_movies_page(movies):
+    # This method takes the movies list from entertainment_center.py as an input and outputs an html file that
+    # contains the html & css code which can be opened in the browser.
     # Create or overwrite the output file
     output_file = open('fresh_tomatoes.html', 'w')
 
-    # Replace the movie tiles placeholder generated content
-    rendered_content = main_page_content.format(
-        movie_tiles=create_movie_tiles_content(movies))
+    # Replace the placeholder for the movie tiles with the actual dynamically generated content
+    rendered_content = main_page_content.format(movie_tiles=create_movie_tiles_content(movies))
 
     # Output the file
     output_file.write(main_page_head + rendered_content)
     output_file.close()
 
-    # open the output file in the browser (in a new tab, if possible)
+    # open the output file in the browser
     url = os.path.abspath(output_file.name)
-    webbrowser.open('file://' + url, new=2)
+    webbrowser.open('file://' + url, new=2)  # open in a new tab, if possible
