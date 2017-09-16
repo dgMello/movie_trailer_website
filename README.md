@@ -12,12 +12,13 @@ This program createa a webpage with the box art, title, plot, and trailer of Dou
 
 ## Contributions
 
-fresh_tomatoes.py from udacity/ud036_StarterCode
+fresh_tomatoes.py from taken from https://github.com/udacity/ud036_StarterCode
 
 ## Author
 
 Doug Mello
 
 ## Version
+
 1.0
 
