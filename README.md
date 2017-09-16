@@ -13,9 +13,9 @@ This program createa a webpage with the box art, title, plot, and trailer of Dou
 1.  Download the code from https://github.com/heisenfraud/movie_trailer_website
 2.  Unzip the files to your computer to the desired folder.  
 3.  Open the command line.
-4.  Navigate to the folder where the files where unzipped.
+4.  Navigate to the folder where the files where unzipped.  
     C://cd example/example
-5.  Enter **python entertainment_center.py** into the command line.
+5.  Enter **python entertainment_center.py** into the command line.  
     python entertainment_center.py
     
 
