@@ -14,9 +14,9 @@ This program createa a webpage with the box art, title, plot, and trailer of Dou
 2.  Unzip the files to your computer to the desired folder.  
 3.  Open the command line.
 4.  Navigate to the folder where the files where unzipped.  
-    C:\> cd example/example'
+    cd example/example
 5.  Enter **python entertainment_center.py** into the command line.  
-    C:\example\example> python entertainment_center.py
+    python entertainment_center.py
     
 
 ## Contributions
